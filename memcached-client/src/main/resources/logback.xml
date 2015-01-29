@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <configuration debug="true"> 调试模式下，可输出logback的内部日志信息 -->
+<configuration debug="false">
+
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 [%file:%line]日志所在文件及行数 %msg%n消息及换行-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%level][%thread]:%logger{50} [%method:%line] %msg%n</pattern>
+        </encoder>
+
+    </appender>
+
+    <appender name="InfoFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${info.log.file}/info/info.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMisMatch>ACCEPT</onMisMatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${info.log.file}/info/info-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>20MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%level] %logger:%L - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ErrorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${info.log.file}/error/error.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMisMatch>DENY</onMisMatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${info.log.file}/error/error-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>20MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%level] %logger:%L - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- 按照每天生成日志文件 -->
+    <!--<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+    <!--<file>${log.file}</file>-->
+    <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+    <!--&lt;!&ndash;日志文件输出的文件名 &ndash;&gt;-->
+    <!--<fileNamePattern>${log.file}.%d{yyyy-MM-dd}.%i</fileNamePattern>-->
+    <!--&lt;!&ndash;日志文件保留天数 &ndash;&gt;-->
+    <!--<maxHistory>30</maxHistory>-->
+    <!--<cleanHistoryOnStart>true</cleanHistoryOnStart>-->
+    <!--<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+    <!--&lt;!&ndash; or whenever the file size reaches 100MB &ndash;&gt;-->
+    <!--<maxFileSize>100MB</maxFileSize>-->
+    <!--</timeBasedFileNamingAndTriggeringPolicy>-->
+    <!--</rollingPolicy>-->
+    <!--<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+    <!--&lt;!&ndash;格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 &ndash;&gt;-->
+    <!--<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%level][%thread]:%logger{50} [%method:%line] %msg%n</pattern>-->
+    <!--</encoder>-->
+    <!--</appender>-->
+
+    <root level="${log.level}">
+        <!--<appender-ref ref="${log.appender}"/>-->
+        <appender-ref ref="ErrorFile"/>
+        <appender-ref ref="InfoFile"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+    <!--<root>-->
+    <!--<appender-ref ref="ErrorFile" level="ERROR"/>-->
+    <!--<appender-ref ref="InfoFile" level="INFO"/>-->
+    <!--<appender-ref ref="STDOUT" level="DEBUG"/>-->
+    <!--</root>-->
+</configuration>

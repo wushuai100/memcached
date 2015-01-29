@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://code.alibabatech.com/schema/dubbo  
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <!-- consumer application name -->
+    <!--<dubbo:application name="product_logistics_consumer"/>-->
+
+    <!-- registry address, used for consumer to discover services -->
+    <dubbo:consumer timeout="#{'${dubbo.export.timeout}'}"/>
+    <!-- which service to consume? -->
+    <dubbo:reference id="skuService" interface="com.sfebiz.logistics.api.SkuService"
+                     url="dubbo://115.28.145.123:20881/com.sfebiz.logistics.api.SkuService" version="#{'${dubbo.reference.version}'}"
+                     check="false"/>
+
+    <dubbo:reference id="stockService" interface="com.sfebiz.logistics.api.SkuService"
+                     url="dubbo://115.28.145.123:20881/com.sfebiz.logistics.api.StockService" version="#{'${dubbo.reference.version}'}"
+                     check="false"/>
+</beans>
